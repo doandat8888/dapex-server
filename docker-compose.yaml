@@ -1,0 +1,27 @@
+services:
+    dapex-be:
+        build: 
+            context: dapex-be
+            dockerfile: Dockerfile
+            target: development
+        command: go run main.go
+        ports:
+            - '4000:4000'
+        restart: always
+        volumes:
+            - ./dapex-be:/app/dapex-be
+    user-mgmt:
+        build: 
+            context: user-mgmt
+            dockerfile: Dockerfile
+            target: development
+        command: npm start
+        env_file:
+            - ./user-mgmt/.env
+        ports:
+            - '8080:8080'
+        restart: always
+        volumes:
+            - ./user-mgmt:/app/user-mgmt
+    mongo:
+        image: mongo
